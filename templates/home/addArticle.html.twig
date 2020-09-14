@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formAddArticle 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <h1> Création d'un article</h1>
+
+    {{ form_start(formAddArticle) }}
+
+    {{ form_row(formAddArticle.name, {'attr': {'placeholder': "Nom de l'article"}}) }}
+    {{ form_row(formAddArticle.reference, {'attr': {'placeholder': "La référence de l'article"}}) }}
+    {{ form_row(formAddArticle.price, {'attr': {'placeholder': "100"}}) }}
+{#    {{ form_row(formAddArticle.stock) }}#}
+
+    <button type="submit" class="btn btn-success">Add article</button>
+
+    {{ form_end(formAddArticle) }}
+
+{%  endblock %}
