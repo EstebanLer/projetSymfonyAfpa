@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{%  block body %}
+
+    <br>
+    <br>
+
+    <h4>Article's ID : {{ article.id }}</h4>
+    <div class="content">
+        <p>Article's name : {{ article.name }}</p>
+        <p>Article's reference : {{ article.reference }}</p>
+        <p>Price : {{ article.price }} €</p>
+        <p>Article's quantity : {{ article.stock.quantity }}</p>
+    </div>
+
+{% endblock %}

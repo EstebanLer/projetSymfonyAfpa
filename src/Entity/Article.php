@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @UniqueEntity("reference",
+ *     message="La référence est déjà présente en stock")
  */
 class Article
 {
@@ -23,18 +27,21 @@ class Article
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $reference;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float",
+     *     message="Seuls les nombres sont autorisés !"
+     * )
      */
     private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=Stock::class, inversedBy="articles",  cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $stock;
 

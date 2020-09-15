@@ -2,4 +2,11 @@
 
 {% block body %}
     <h1>Bienvenue dans cet application de gestion </h1>
+
+    <div>
+        <form action="{{ path('article_search') }}" method="get">
+            <input type="text" class="form-control" placeholder="Search" name ="find">
+            <button type="submit" class="btn btn-success">Search</button>
+        </form>
+    </div>
 {% endblock %}
