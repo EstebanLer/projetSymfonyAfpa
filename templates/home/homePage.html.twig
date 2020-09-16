@@ -1,12 +1,69 @@
 {%  extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Bienvenue dans cet application de gestion </h1>
 
-    <div>
-        <form action="{{ path('article_search') }}" method="get">
-            <input type="text" class="form-control" placeholder="Search" name ="find">
-            <button type="submit" class="btn btn-success">Search</button>
+    <br>
+    <div class="col-md-9">
+        <h1 style="border: #1a645f 3px solid; width: auto; height: auto; color: #1a645f">Bienvenue dans cet application de gestion </h1>
+    </div>
+
+    <br>
+    <div class="col-md-4" style="border: #1a645f 3px solid; padding-top: 10px; padding-bottom: 10px; margin-left: 15px">
+        <form action="{{ path('article_search') }}" method="post" id="search-js">
+            <label style="color: #1a645f">Find an article by name or by reference :</label>
+            <input type="text" class="form-control" placeholder="Search" name ="find" id="find-js" required>
+            <br>
+            <button type="submit" class="btn btn-outline-success" id="searchSubmit-js">Search</button>
         </form>
     </div>
+
+    <div class="col-md-4" style="border: #1a645f 3px solid; padding-top: 10px; padding-bottom: 10px; margin-left: 15px; margin-top: 40px">
+        <form action="{{ path('article_searchByPrice') }}" method="post">
+            <label style="color: #1a645f">Min price</label>
+            <input type="text" class="form-control" placeholder="0" name ="minPrice" required>
+            <label style="color: #1a645f">Max price</label>
+            <input type="text" class="form-control" placeholder="1000" name ="maxPrice" required>
+            <br>
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+    <br>
+    <div class="row">
+        <div id="article">
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+       $("#search-js").on("submit", function (e) {
+           e.preventDefault();
+
+           console.log($("#find-js").val());
+           $.ajax({
+               url:'/home/article/search',
+               type: 'POST',
+               dataType: 'json',
+               data: $("#find-js").val(),
+
+               success:function (data) {
+                   console.log(data)
+                   data.forEach((element) => {
+                       $('#article').append("<p>" + 'Article ID : ' + element.id + "<p>")
+                       $('#article').append("<p>" + 'Price : ' + element.price + "<p>")
+                       $('#article').append("<p>" + 'Name : ' + element.name + "<p>")
+                       $('#article').append("<p>" + 'Quantity : ' + element.quantity + "<p>")
+                       // $('#article').append("<p>" + element.price + "<p>")
+
+                   })
+               },
+               error:function (response) {}
+           })
+       })
+
+    </script>
 {% endblock %}

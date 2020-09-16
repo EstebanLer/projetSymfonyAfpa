@@ -1,0 +1,15 @@
+{%  extends 'base.html.twig' %}
+
+{%  block body %}
+    <h1>Website registration</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.username, {'attr': {'placeholder': 'Username ...'}}) }}
+    {{ form_row(form.password, {'attr': {'placeholder': 'Password ...'}}) }}
+    {{ form_row(form.confirm_password, {'label': 'Confirm password','attr': {'placeholder': 'Confirm your password ...'}}) }}
+
+    <button type="submit" class="btn btn-outline-success">Registration !</button>
+
+    {{ form_end(form) }}
+{% endblock %}

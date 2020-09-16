@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,16 +19,19 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *  @Groups("article:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("article:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups("article:read")
      */
     private $reference;
 
@@ -36,12 +40,14 @@ class Article
      * @Assert\Type(type="float",
      *     message="Seuls les nombres sont autorisés !"
      * )
+     * @Groups("article:read")
      */
     private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=Stock::class, inversedBy="articles",  cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("article:read")
      */
     private $stock;
 

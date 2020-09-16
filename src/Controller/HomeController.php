@@ -9,10 +9,13 @@ use App\Form\StockType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class HomeController extends AbstractController
 {
@@ -48,42 +51,42 @@ class HomeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
      */
-    public function formArticle(Article $article = null, Stock $stock = null,Request $request, EntityManagerInterface $manager) {
+    public function formArticle(Article $articles = null, Stock $stock = null,Request $request, EntityManagerInterface $manager) {
 
-        if (!$article) {
-            $article = new Article();
+        if (!$articles) {
+            $articles = new Article();
         }
 
         if (!$stock) {
             $stock = new Stock();
         }
 
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleType::class, $articles);
         $formStock = $this->createForm(StockType::class, $stock);
 
         $form->handleRequest($request);
         $formStock->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$article->getStock()) {
-                $article->setStock($stock);
+            if (!$articles->getStock()) {
+                $articles->setStock($stock);
                 $manager->persist($stock);
             }
 
-            $article->getStock()->setQuantity($stock->getQuantity());
+            $articles->getStock()->setQuantity($stock->getQuantity());
 
 
-            $manager->persist($article);
+            $manager->persist($articles);
             $manager->flush();
 
-            return $this->redirectToRoute("article_show", ['reference' => $article->getReference()]);
+            return $this->redirectToRoute("home");
 
         }
 
         return $this->render('home/addArticle.html.twig', [
             'formAddArticle' => $form->createView(),
             'formStockArticle' => $formStock->createView(),
-            'editMode' => $article->getId() !== null
+            'editMode' => $articles->getId() !== null
         ]);
     }
 
@@ -98,13 +101,13 @@ class HomeController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Article::class);
 
         if (preg_match('/^[1-9][0-9]*$/', $reference)) {
-            $article = $repo->findOneBy(['reference' => $reference]);
+            $articles = $repo->findOneBy(['reference' => $reference]);
         } else {
-            $article = $repo->findOneBy(['name' => $reference]);
+            $articles = $repo->findOneBy(['name' => $reference]);
         }
 
         return $this->render("home/show.html.twig",[
-            'article' => $article
+            'articles' => $articles
         ]);
     }
 
@@ -129,20 +132,75 @@ class HomeController extends AbstractController
 
     }
 
+//    /**
+//     * @Route("/home/article/search", name="article_search")
+//    */
+//    public function searchArticle(Request $request) { // Fonction qui permet de chercher un article par nom et par référence
+//        $ref = $request->get('find');
+//
+//        $repo = $this->getDoctrine()->getRepository(Article::class);
+//
+//        if (preg_match('/^[1-9][0-9]*$/', $ref)) {
+//            $articles = $repo->findBy(['reference' => $ref]);
+//        } else {
+//            $articles = $repo->findBy(['name' => $ref]);
+//        }
+//
+//        if ($articles) {
+//            return $this->render("home/show.html.twig",[
+//                'articles' => $articles
+//            ]);
+//        } else {
+//            return $this->render('home/index.html.twig');
+//        }
+//    }
+
     /**
-     * @Route("/article", name="article_search")
-    */
-    public function searchArticle(Request $request) {
-        $ref = $request->get('find');
+     * @Route("/home/article/search", name="article_search")
+     */
+    public function searchArticle(Request $request, NormalizerInterface $normalizer) { // Fonction qui permet de chercher un article par nom et par référence
+        $ref = $request->getContent();
+
+        $arrArticle = [];
 
         $repo = $this->getDoctrine()->getRepository(Article::class);
-        $article = $repo->findOneBy(["reference" => $ref]);
 
-        return $this->render("home/show.html.twig",[
-            'article' => $article
-        ]);
+        if (preg_match('/^[1-9][0-9]*$/', $ref)) {
+            $articles = $repo->findBy(['reference' => $ref]);
+        } else {
+            $articles = $repo->findBy(['name' => $ref]);
+        }
+
+        if ($articles) {
+            foreach ($articles as $article) {
+                $arrArticle[] = ['name' => $article->getName(),
+                    'price' => $article->getPrice(),
+                    'quantity' => $article->getStock()->getQuantity(),
+                    'id' => $article->getId()];
+            }
+            return new JsonResponse($arrArticle);
+        }
+        //return $this->json($repo->findOneBy(['reference' => 777894]), 200, [], ['groups' => 'article:read']);
     }
 
+    /**
+     * @Route("/home/article/findPrice", name="article_searchByPrice")
+     */
+    public function findArticleByPriceRange(Request $request) {
 
+        $minPrice = $request->get('minPrice');
+        $maxPrice = $request->get('maxPrice');
+
+        $repo = $this->getDoctrine()->getRepository(Article::class);
+
+        $articles = $repo->findByPriceRange($minPrice, $maxPrice);
+        if ($articles) {
+            return $this->render("home/show.html.twig",[
+                'articles' => $articles
+            ]);
+        } else {
+            return $this->render('home/index.html.twig');
+        }
+    }
 
 }

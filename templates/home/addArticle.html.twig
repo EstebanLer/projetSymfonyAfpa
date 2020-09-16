@@ -4,30 +4,29 @@
 {% form_theme formStockArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <br>
-    <br>
+        <br>
+        <br>
 
-    {% if editMode %}
-        <h1>Modify an article</h1>
-    {% else %}
-        <h1>Add an article</h1>
-    {% endif %}
+        {% if editMode %}
+            <h1>Modify an article</h1>
+        {% else %}
+            <h1>Add an article</h1>
+        {% endif %}
 
 
-    {{ form_start(formAddArticle) }}
+        {{ form_start(formAddArticle) }}
 
-    {{ form_row(formAddArticle.name, {'attr': {'placeholder': "Nom de l'article"}}) }}
-    {{ form_row(formAddArticle.reference, {'attr': {'placeholder': "La référence de l'article"}}) }}
-    {{ form_row(formAddArticle.price, {'attr': {'placeholder': "100"}}) }}
-    {{ form_row(formStockArticle.quantity) }}
-{#    {{ form_row(formAddArticle.stock) }}#}
+        {{ form_row(formAddArticle.name, {'attr': {'placeholder': "Nom de l'article"}}) }}
+        {{ form_row(formAddArticle.reference, {'attr': {'placeholder': "La référence de l'article"}}) }}
+        {{ form_row(formAddArticle.price, {'attr': {'placeholder': "100"}}) }}
+        {{ form_row(formStockArticle.quantity) }}
 
-    {% if editMode %}
-        <button type="submit" class="btn btn-success">Modify article</button>
-    {% else %}
-        <button type="submit" class="btn btn-success">Add article</button>
-    {% endif %}
+        {% if editMode %}
+            <button type="submit" class="btn btn-success">Modify article</button>
+        {% else %}
+            <button type="submit" class="btn btn-success">Add article</button>
+        {% endif %}
 
-    {{ form_end(formAddArticle) }}
+        {{ form_end(formAddArticle) }}
 
 {%  endblock %}
