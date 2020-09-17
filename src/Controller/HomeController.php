@@ -155,11 +155,43 @@ class HomeController extends AbstractController
 //        }
 //    }
 
+// Version avec ajax post
+
+//    /**
+//     * @Route("/article/search", name="article_search")
+//     */
+//    public function searchArticle(Request $request) { // Fonction qui permet de chercher un article par nom et par référence
+//        $ref = $request->getContent();
+//
+//        $arrArticle = [];
+//
+//        $repo = $this->getDoctrine()->getRepository(Article::class);
+//
+//        if (preg_match('/^[1-9][0-9]*$/', $ref)) {
+//            $articles = $repo->findBy(['reference' => $ref]);
+//        } else {
+//            $articles = $repo->findBy(['name' => $ref]);
+//        }
+//
+//        if ($articles) {
+//            foreach ($articles as $article) {
+//                $arrArticle[] = ['name' => $article->getName(),
+//                    'price' => $article->getPrice(),
+//                    'quantity' => $article->getStock()->getQuantity(),
+//                    'id' => $article->getId()];
+//            }
+//            return new JsonResponse($arrArticle, 200);
+//
+//        }
+//    }
+
+
+    //Version avec ajax get
     /**
-     * @Route("/home/article/search", name="article_search")
+     * @Route("/article/search/{ref}", name="article_search", methods={"GET"})
+     * @param $ref
      */
-    public function searchArticle(Request $request, NormalizerInterface $normalizer) { // Fonction qui permet de chercher un article par nom et par référence
-        $ref = $request->getContent();
+    public function searchArticle(Request $request, $ref) { // Fonction qui permet de chercher un article par nom et par référence
 
         $arrArticle = [];
 
@@ -178,13 +210,14 @@ class HomeController extends AbstractController
                     'quantity' => $article->getStock()->getQuantity(),
                     'id' => $article->getId()];
             }
-            return new JsonResponse($arrArticle);
+            return new JsonResponse($arrArticle, 200);
+        } else {
+            return new JsonResponse($arrArticle, 204);
         }
-        //return $this->json($repo->findOneBy(['reference' => 777894]), 200, [], ['groups' => 'article:read']);
     }
 
     /**
-     * @Route("/home/article/findPrice", name="article_searchByPrice")
+     * @Route("/article/findPrice", name="article_searchByPrice")
      */
     public function findArticleByPriceRange(Request $request) {
 

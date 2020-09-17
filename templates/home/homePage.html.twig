@@ -8,14 +8,17 @@
     </div>
 
     <br>
-    <div class="col-md-4" style="border: #1a645f 3px solid; padding-top: 10px; padding-bottom: 10px; margin-left: 15px">
-        <form action="{{ path('article_search') }}" method="post" id="search-js">
-            <label style="color: #1a645f">Find an article by name or by reference :</label>
-            <input type="text" class="form-control" placeholder="Search" name ="find" id="find-js" required>
-            <br>
-            <button type="submit" class="btn btn-outline-success" id="searchSubmit-js">Search</button>
-        </form>
+    <div class="row">
+        <div class="col-md-4" style="border: #1a645f 3px solid; padding-top: 10px; padding-bottom: 10px; margin-left: 30px">
+            <form id="search-js">
+                <label style="color: #1a645f">Find an article by name or by reference :</label>
+                <input type="text" class="form-control" placeholder="Search" name ="find" id="find-js" required>
+                <br>
+                <button type="submit" class="btn btn-outline-success" id="searchSubmit-js">Search</button>
+            </form>
+        </div>
     </div>
+
 
     <div class="col-md-4" style="border: #1a645f 3px solid; padding-top: 10px; padding-bottom: 10px; margin-left: 15px; margin-top: 40px">
         <form action="{{ path('article_searchByPrice') }}" method="post">
@@ -27,12 +30,9 @@
             <button type="submit" class="btn btn-outline-success">Search</button>
         </form>
     </div>
-    <br>
-    <div class="row">
-        <div id="article">
-        </div>
-    </div>
 
+    <div id="article" class="col-md-4" style="margin-top: 30px;  padding-top: 10px; padding-bottom: 10px;">
+    </div>
 
 {% endblock %}
 
@@ -43,25 +43,46 @@
        $("#search-js").on("submit", function (e) {
            e.preventDefault();
 
-           console.log($("#find-js").val());
+           $("#article").empty();
+
            $.ajax({
-               url:'/home/article/search',
-               type: 'POST',
+               url:'/article/search/' + $("#find-js").val(),
+               type: 'GET',
                dataType: 'json',
-               data: $("#find-js").val(),
 
-               success:function (data) {
-                   console.log(data)
-                   data.forEach((element) => {
-                       $('#article').append("<p>" + 'Article ID : ' + element.id + "<p>")
-                       $('#article').append("<p>" + 'Price : ' + element.price + "<p>")
-                       $('#article').append("<p>" + 'Name : ' + element.name + "<p>")
-                       $('#article').append("<p>" + 'Quantity : ' + element.quantity + "<p>")
-                       // $('#article').append("<p>" + element.price + "<p>")
+               success:function (data, response, xhr) {
 
-                   })
+                   if (xhr.status === 200) {
+
+                       $("#article").append("<hr>")
+                       $("#article").append("<h4>" + "Résultat de la recherche :" + "</h4>")
+                       $("#article").append("<hr>")
+                           data.forEach((element) => {
+                               $('#article').append("<p>" + 'Article ID : ' + element.id + "</p>")
+                               $('#article').append("<p>" + 'Price : ' + element.price + " €" + "</p>")
+                               $('#article').append("<p>" + 'Name : ' + element.name + "</p>")
+                               $('#article').append("<p>" + 'Available quantity : ' + element.quantity + "</p>")
+                               $("#article").append("<hr>")
+
+                               $("#search-js")[0].reset();
+
+                           });
+
+
+                   } else if (xhr.status === 204) {
+                       $("#article").append("<hr>")
+                       $("#article").append("<h4>" + "Résultat de la recherche :" + "</h4>")
+                       $("#article").append("<hr>")
+                       $("#article").append("<p>" + "Aucune correspondance n'a été trouvé." + "</p>")
+                   }
+
+
                },
-               error:function (response) {}
+               error:function (response) {},
+
+               complete: function(xhr, textStatus) {
+                   console.log(xhr.status);
+               }
            })
        })
 

@@ -19,24 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c775fd6d-2d6a-42c9-a7f5-7796a7eda284" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/projetSymfonyAfpa.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projetSymfonyAfpa.iml" afterDir="false" />
+    <list default="true" id="c775fd6d-2d6a-42c9-a7f5-7796a7eda284" name="Default Changelist" comment="Ajout de l'authentification, de la registration.&#10;Ajout d'un call ajax.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20200914150545.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20200915071859.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20200915071859.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20200916115013.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Article.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Stock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stock.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ArticleRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home/addArticle.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/addArticle.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home/homePage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/homePage.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/show.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -193,8 +180,17 @@
       <workItem from="1600110647930" duration="4994000" />
       <workItem from="1600153959541" duration="20507000" />
       <workItem from="1600198174215" duration="3508000" />
-      <workItem from="1600239428953" duration="28018000" />
+      <workItem from="1600239428953" duration="28532000" />
+      <workItem from="1600325294042" duration="9449000" />
     </task>
+    <task id="LOCAL-00001" summary="Ajout de l'authentification, de la registration.&#10;Ajout d'un call ajax.">
+      <created>1600289751623</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600289751623</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,6 +207,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ajout de l'authentification, de la registration.&#10;Ajout d'un call ajax." />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout de l'authentification, de la registration.&#10;Ajout d'un call ajax." />
   </component>
   <component name="WindowStateProjectService">
     <state x="667" y="182" key="#PHP" timestamp="1600154071583">
@@ -229,10 +229,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1600113268301" />
+    <state x="585" y="1" key="CommitChangelistDialog2" timestamp="1600289750019">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="585" y="1" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1600289750019" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1600154030858">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600154030858" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1600094952241" />
+    <state x="552" y="249" key="Vcs.Push.Dialog.v2" timestamp="1600289763261">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="249" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1600289763261" />
   </component>
 </project>
